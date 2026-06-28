@@ -11,5 +11,9 @@ devices = [
     {
         "name": "Default Gateway",
         "ip": "10.0.0.1"
+    },
+    {
+        "name": "Kims Default",
+        "ip": "192.168.1.254"
     }
 ]
