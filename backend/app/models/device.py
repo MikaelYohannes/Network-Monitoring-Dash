@@ -5,3 +5,7 @@ class DeviceStatus(BaseModel):
     ip:str
     status: str
     latency: float | None
+
+class DeviceCreate(BaseModel):
+    name: str
+    ip:str

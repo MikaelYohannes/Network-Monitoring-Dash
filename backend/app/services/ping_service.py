@@ -1,5 +1,5 @@
 from ping3 import ping
-from app.database.devices import devices
+from app.services.device_service import *
 
 def ping_device(ip):
     result = ping(ip)
@@ -14,7 +14,8 @@ def ping_device(ip):
         "latency":round(result*1000,2)
     }
 
-def get_all_device_status(devices):
+def get_all_device_status():
+    devices = get_all_devices()
     results = []
     for device in devices:
         stat = ping_device(device["ip"])

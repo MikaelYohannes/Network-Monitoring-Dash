@@ -1,6 +1,6 @@
 import sqlite3
 
-DATABASE = "app/database/mointor.db"
+DATABASE = "app/database/monitor.db"
 
 def get_connection():
     conn = sqlite3.connect(DATABASE)
