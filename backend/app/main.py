@@ -1,11 +1,18 @@
 #main.py
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
+from contextlib import asynccontextmanager
+from app.database.schema import initialize_database
 from app.services.ping_service import *
 from app.database.devices import devices
 from app.models.device import DeviceStatus
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    initialize_database()
+    yield
+
+app = FastAPI(lifespan = lifespan)
 
 
 @app.get("/")
