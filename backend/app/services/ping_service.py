@@ -14,8 +14,7 @@ def ping_device(ip):
         "latency":round(result*1000,2)
     }
 
-def get_all_device_status():
-    devices = get_all_devices()
+def get_all_device_status(devices):
     results = []
     for device in devices:
         stat = ping_device(device["ip"])

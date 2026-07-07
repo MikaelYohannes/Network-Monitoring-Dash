@@ -54,16 +54,17 @@ def add_device(new_device):
     conn = get_connection()
     cursor = conn.cursor()
     query = "INSERT INTO devices(name, ip_address) VALUES (?, ?)"
-    data = (new_device.name, new_device.ip)
+    data = (new_device.name, str(new_device.ip))
     try:
-        cursor.execute(query, data)        
-    
+        cursor.execute(query, data)      
+        return{"id": cursor.lastrowid}
     except sqlite3.Error as e:
         print(f"An error: {e}")
 
     finally:
         conn.commit()
         conn.close()
+        
 
 def delete_device(id):
     conn = get_connection()
