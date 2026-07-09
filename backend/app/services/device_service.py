@@ -72,7 +72,8 @@ def delete_device(id):
     query = "DELETE FROM devices WHERE device_id = ?"
     
     try:
-        cursor.execute(query, (id,))        
+        cursor.execute(query, (str(id),))   
+        return cursor.rowcount > 0    
     
     except sqlite3.Error as e:
         print(f"An error: {e}")

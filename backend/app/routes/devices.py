@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter, status, HTTPException
 from app.services.ping_service import get_all_device_status
 from app.services.device_service import *
 from app.models.device import *
@@ -13,3 +13,10 @@ def show_all_device_status():
 @device_router.post("",status_code = status.HTTP_201_CREATED)
 async def create_device(device: DeviceCreate):
     return add_device(device)
+
+@device_router.delete("/{id}", status_code = status.HTTP_204_NO_CONTENT)
+def remove_device(id: int):
+    if not delete_device(id):
+        raise HTTPException(status_code=404, detail = "Device not found")
+    
+    return {"message": "Device deleted"}
