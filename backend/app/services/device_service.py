@@ -82,13 +82,18 @@ def delete_device(id):
         conn.commit()
         conn.close()
 
-def update_device(id, name, ip):
+def update_device(new_device):
+    row_id = device_exists(str(new_device.ip))
+    if row_id is None:
+        return False
     conn = get_connection()
     cursor = conn.cursor()
+
     query = "UPDATE devices SET name = ?, ip_address = ? WHERE device_id = ?"
     
     try:
-        cursor.execute(query, (name, ip, id))        
+        cursor.execute(query, (new_device.name, str(new_device.ip), row_id['device_id'])) 
+        return True       
     
     except sqlite3.Error as e:
         print(f"An error: {e}")
@@ -100,13 +105,12 @@ def update_device(id, name, ip):
 def device_exists(ip):
     conn = get_connection()
     cursor = conn.cursor()
-    query = "SELECT * FROM devices WHERE ip_address = ?"
+    query = "SELECT device_id FROM devices WHERE ip_address = ?"
     
     try:
-        cursor.execute(query, (ip,))        
-        if cursor.fetchone() is not None:
-            return True
-        return False
+        cursor.execute(query, (ip,))  
+        row = cursor.fetchone()
+        return row
     except sqlite3.Error as e:
         print(f"An error: {e}")
 

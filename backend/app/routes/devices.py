@@ -20,3 +20,18 @@ def remove_device(id: int):
         raise HTTPException(status_code=404, detail = "Device not found")
     
     return {"message": "Device deleted"}
+
+@device_router.get("/{id}",response_model = list[DeviceStatus], status_code = status.HTTP_200_OK)
+def show_device(id: int):
+    device = get_device(id)
+    if not device:
+        raise HTTPException(status_code = 404, detail = "Device not found")
+    else:
+        return get_all_device_status(device)
+    
+@device_router.put("", status_code = status.HTTP_200_OK)
+def update(device: DeviceCreate):
+    if not update_device(device):
+        raise HTTPException(status_code = 404, detail = "Device not found")
+    return {"message" : "Device Updated"} 
+
