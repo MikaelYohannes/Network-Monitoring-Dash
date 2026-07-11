@@ -117,3 +117,19 @@ def device_exists(ip):
     finally:
         conn.commit()
         conn.close()
+
+def update_status(status):
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("""INSERT INTO status(device_id, status, latency) VALUES (?,?,?) 
+                        ON CONFLICT (device_id) DO UPDATE SET status = ?, latency = ?, last_checked = CURRENT_TIMESTAMP;""", 
+                        (status["id"],status["status"],status["latency"],status["status"], status["latency"]))
+        return
+    except sqlite3.Error as e:
+        print(f"An error {e}")
+
+    finally:
+        conn.commit()
+        conn.close()

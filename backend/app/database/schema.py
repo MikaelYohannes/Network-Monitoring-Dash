@@ -11,10 +11,10 @@ def initialize_database():
                    """)
     
     cursor.execute("""CREATE TABLE IF NOT EXISTS status (
-                   device_id INTEGER,
+                   device_id INTEGER PRIMARY KEY,
                    status TEXT NOT NULL DEFAULT offline CHECK(status IN ('online', 'offline')),
                    latency REAL CHECK(latency >= 0.0 OR latency IS NULL),
-                   last_checked TEXT DEFAULT CURRENT_TIMESTAMP,
+                   last_checked TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                    FOREIGN KEY (device_id) REFERENCES devices(device_id)
                    ON DELETE CASCADE)""")
     conn.commit()
