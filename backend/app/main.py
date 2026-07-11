@@ -3,11 +3,14 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from app.database.schema import initialize_database
 from app.routes.devices import device_router
-
+from app.services.monitor_service import background_monitor
+import threading
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     initialize_database()
+    bg_thread = threading.Thread(target=background_monitor, daemon = True)
+    bg_thread.start()
     yield
 
 app = FastAPI(lifespan = lifespan)

@@ -50,6 +50,8 @@ def get_device(id):
     finally:
         conn.close()
 
+
+
 def add_device(new_device):
     conn = get_connection()
     cursor = conn.cursor()

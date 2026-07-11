@@ -11,7 +11,18 @@ def monitor_once():
             "status": stat["status"],
             "latency": stat["latency"]
         })
-    return status
+
+import time
+
+def background_monitor():
+    while True:
+        try:
+            monitor_once()
+            print("Monitor Started \n")
+        except Exception as e:
+            print(f"Monitor error: {e}")
+            
+        time.sleep(30)
     
 
 
