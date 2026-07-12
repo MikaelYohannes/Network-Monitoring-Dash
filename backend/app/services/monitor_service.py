@@ -1,5 +1,5 @@
 from app.services.device_service import get_all_devices
-from app.services.status_service import update_status
+from app.services.status_service import update_status,update_stat_history
 from app.services.ping_service import get_all_device_status
 import time
 
@@ -12,6 +12,12 @@ def monitor_once():
             "status": stat["status"],
             "latency": stat["latency"]
         })
+       update_stat_history({
+            "id": device["id"],
+            "status": stat["status"],
+            "latency": stat["latency"]
+        })
+       
 
 
 

@@ -17,5 +17,15 @@ def initialize_database():
                    last_checked TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                    FOREIGN KEY (device_id) REFERENCES devices(device_id)
                    ON DELETE CASCADE)""")
+
+    cursor.execute("""CREATE TABLE IF NOT EXISTS status_history (
+                   id INTEGER PRIMARY KEY AUTOINCREMENT,
+                   device_id INTEGER NOT NULL,
+                   status TEXT NOT NULL DEFAULT offline CHECK(status IN ('online', 'offline')),
+                   latency REAL CHECK(latency >= 0.0 OR latency IS NULL),
+                   checked_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                   FOREIGN KEY (device_id) REFERENCES devices(device_id)
+                   ON DELETE CASCADE), 
+                   )""")
     conn.commit()
     conn.close()

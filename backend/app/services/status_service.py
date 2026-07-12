@@ -17,12 +17,27 @@ def update_status(status):
         conn.commit()
         conn.close()
 
+def update_stat_history(status):
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("""INSERT INTO status_history(device_id, status, latency) VALUES (?,?,?) """, 
+                        (status["id"],status["status"],status["latency"]))
+        return {"message": "Device Status history Created"}
+    except sqlite3.Error as e:
+        print(f"An error {e}")
+
+    finally:
+        conn.commit()
+        conn.close()
+
 def get_all_status():
     conn = get_connection()
     cursor = conn.cursor()
     
     try:
-        cursor.execute("""SELECT * FROM status,devices WHERE status.device_id = devices.device_id""")
+        cursor.execute("""SELECT * FROM devices LEFT JOIN status WHERE status.device_id = devices.device_id""")
         rows = cursor.fetchall()
         result = []
         for row in rows:
