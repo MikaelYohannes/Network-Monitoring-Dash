@@ -1,14 +1,15 @@
 from fastapi import APIRouter, status, HTTPException
 from app.services.ping_service import get_all_device_status
 from app.services.device_service import *
-from app.services.monitor_service import *
+from app.services.status_service import get_all_status
+
 from app.models.device import *
 
 device_router = APIRouter(prefix="/devices", tags=["Devices"])
 
 @device_router.get("", response_model=list[DeviceStatus])
 def show_all_device_status():
-    return monitor_once()
+    return get_all_status()
 
 @device_router.post("",status_code = status.HTTP_201_CREATED)
 async def create_device(device: DeviceCreate):

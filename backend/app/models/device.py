@@ -6,6 +6,7 @@ class DeviceStatus(BaseModel):
     ip: IPvAnyAddress
     status: str
     latency: float | None
+    last_checked: str
 
 class DeviceCreate(BaseModel):
     name: str

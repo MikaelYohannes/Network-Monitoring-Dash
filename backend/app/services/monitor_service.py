@@ -1,6 +1,7 @@
-from app.services.device_service import get_all_devices, update_status
+from app.services.device_service import get_all_devices
+from app.services.status_service import update_status
 from app.services.ping_service import get_all_device_status
-
+import time
 
 def monitor_once():
     devices = get_all_devices()
@@ -12,13 +13,14 @@ def monitor_once():
             "latency": stat["latency"]
         })
 
-import time
+
 
 def background_monitor():
+    print("Monitor Started \n")
     while True:
         try:
             monitor_once()
-            print("Monitor Started \n")
+            
         except Exception as e:
             print(f"Monitor error: {e}")
             
