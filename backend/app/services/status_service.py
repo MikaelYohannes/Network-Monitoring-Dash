@@ -42,3 +42,30 @@ def get_all_status():
     finally:
         conn.commit()
         conn.close()
+
+def get_device_status(id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("""SELECT * FROM status,devices WHERE status.device_id = devices.device_id 
+                       AND devices.device_id = ?""", (id,))
+        row = cursor.fetchone()
+        if row is None:
+            return {}
+        result = {
+                "name": row["name"],
+                "ip": row["ip_address"],
+                "status": row["status"],
+                "latency": row["latency"],
+                "last_checked": row["last_checked"]
+                
+            }
+        
+        return result
+    except sqlite3.Error as e:
+        print(f"An error {e}")
+
+    finally:
+        conn.commit()
+        conn.close()

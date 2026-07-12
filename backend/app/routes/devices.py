@@ -1,7 +1,6 @@
 from fastapi import APIRouter, status, HTTPException
-from app.services.ping_service import get_all_device_status
 from app.services.device_service import *
-from app.services.status_service import get_all_status
+from app.services.status_service import get_all_status, get_device_status
 
 from app.models.device import *
 
@@ -22,13 +21,13 @@ def remove_device(id: int):
     
     return {"message": "Device deleted"}
 
-@device_router.get("/{id}",response_model = list[DeviceStatus], status_code = status.HTTP_200_OK)
+@device_router.get("/{id}",response_model = DeviceStatus, status_code = status.HTTP_200_OK)
 def show_device(id: int):
-    device = get_device(id)
+    device = get_device_status(id)
     if not device:
         raise HTTPException(status_code = 404, detail = "Device not found")
     else:
-        return get_all_device_status(device)
+        return device
     
 @device_router.put("", status_code = status.HTTP_200_OK)
 def update(device: DeviceCreate):
