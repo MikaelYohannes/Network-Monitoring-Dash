@@ -25,7 +25,6 @@ def initialize_database():
                    latency REAL CHECK(latency >= 0.0 OR latency IS NULL),
                    checked_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
                    FOREIGN KEY (device_id) REFERENCES devices(device_id)
-                   ON DELETE CASCADE), 
-                   )""")
+                   ON DELETE CASCADE)""")
     conn.commit()
     conn.close()

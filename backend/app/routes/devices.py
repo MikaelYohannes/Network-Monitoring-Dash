@@ -1,12 +1,12 @@
 from fastapi import APIRouter, status, HTTPException
 from app.services.device_service import *
-from app.services.status_service import get_all_status, get_device_status
+from app.services.status_service import get_all_status, get_device_status, get_stat_history
 
 from app.models.device import *
 
 device_router = APIRouter(prefix="/devices", tags=["Devices"])
 
-@device_router.get("", response_model=list[DeviceStatus])
+@device_router.get("", response_model=list[AllInfo])
 def show_all_device_status():
     return get_all_status()
 
@@ -35,3 +35,6 @@ def update(device: DeviceCreate):
         raise HTTPException(status_code = 404, detail = "Device not found")
     return {"message" : "Device Updated"} 
 
+@device_router.get("/{id}/history", status_code = status.HTTP_200_OK)
+def get_history(id: int):
+    return get_stat_history(id)

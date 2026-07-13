@@ -32,6 +32,29 @@ def update_stat_history(status):
         conn.commit()
         conn.close()
 
+def get_stat_history(id):
+    conn = get_connection()
+    cursor = conn.cursor()
+    
+    try:
+        cursor.execute("""SELECT * FROM status_history""")
+        rows = cursor.fetchall()
+        result = []
+        for row in rows:
+            result.append({
+                "status": row["status"],
+                "latency": row["latency"],
+                "time": row["checked_at"]                
+            })
+        
+        return result
+    except sqlite3.Error as e:
+        print(f"An error {e}")
+
+    finally:
+        conn.commit()
+        conn.close()
+
 def get_all_status():
     conn = get_connection()
     cursor = conn.cursor()
@@ -42,6 +65,7 @@ def get_all_status():
         result = []
         for row in rows:
             result.append({
+                "id": row["device_id"],## Temporary
                 "name": row["name"],
                 "ip": row["ip_address"],
                 "status": row["status"],
