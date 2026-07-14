@@ -1,10 +1,10 @@
 import "./App.css";
-
+import Card from "./components/card";
+import Topbar from "./components/Topbar";
 export default function App() {
   return (
-    <div>
-      <h1>Network Monitor</h1>
-      <p>Blank</p>
-    </div>
+    <>
+      <Topbar />
+    </>
   );
 }
