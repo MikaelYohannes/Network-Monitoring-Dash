@@ -8,7 +8,7 @@ export default function Sidebar() {
     "flex justify-between min-width-5 opacity-80 hover:opacity-100 hover:cursor-pointer duration-500  my-10 px-5 py-2";
   let icon_prop = "mr-2 text-xl";
   return (
-    <div className="flex flex-col justify-start h-screen border-r-1 bg-[#020820] px-10">
+    <div className="flex flex-col justify-start h-screen border-r-1 border-orange-400 bg-[#020820] px-10">
       <div className={button_prop}>
         <IoHomeOutline className={icon_prop} />
         <button>Home</button>
