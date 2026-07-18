@@ -1,6 +1,6 @@
 interface CardProp {
   name: string;
-  value: string;
+  value: number;
 }
 
 export default function Card(props: CardProp) {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Device } from "../types/devices";
+import { getDevices } from "../api/devices";
 
 export default function Table() {
   let cell_prop = "border border-orange-400 p-2";
@@ -10,10 +11,7 @@ export default function Table() {
   const [devices, setDevices] = useState<Device[]>([]);
   useEffect(() => {
     const fetchDevices = () => {
-      fetch("http://127.0.0.1:8000/devices")
-        .then((res) => res.json())
-        .then((data) => setDevices(data))
-        .catch(console.error);
+      getDevices().then(setDevices).catch(console.error);
     };
     fetchDevices();
 
@@ -36,11 +34,11 @@ export default function Table() {
         <tbody>
           {devices.map((device) => (
             <tr key={device.id}>
-              <td>{device.name}</td>
-              <td>{device.ip_address}</td>
-              <td>{device.status}</td>
-              <td>{device.latency}</td>
-              <td className="border border-orange-400 p-2">
+              <td className={cell_prop}>{device.name}</td>
+              <td className={cell_prop}>{device.ip}</td>
+              <td className={cell_prop}>{device.status}</td>
+              <td className={cell_prop}>{device.latency}</td>
+              <td className="flex justify-evenly border border-orange-400 p-2">
                 <button className={edit_button_prop}>Edit</button>
                 <button className={delete_button_prop}>Delete</button>
               </td>

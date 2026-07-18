@@ -7,9 +7,9 @@ export default function App() {
   return (
     <div>
       <Topbar />
-      <div className="flex">
+      <div className="">
         <Sidebar />
-        <div>
+        <div className="ml-50 mt-18">
           <Summary />
           <Table />
         </div>

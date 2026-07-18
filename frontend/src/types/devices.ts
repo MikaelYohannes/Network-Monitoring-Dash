@@ -1,7 +1,7 @@
 export type Device = {
     id: number;
     name: string;
-    ip_address: string;
+    ip: string;
     status: string;
     latency: number | null;
     last_checked: string;
