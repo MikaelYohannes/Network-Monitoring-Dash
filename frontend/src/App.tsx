@@ -10,7 +10,13 @@ export default function App() {
       <div className="">
         <Sidebar />
         <div className="ml-50 mt-18">
+          <h1 className="ml-10 pt-10 opacity-80 text-4xl font-bold">
+            Highlights
+          </h1>
           <Summary />
+          <h1 className="text-4xl ml-10 pb-2 opacity-80 font-bold">
+            Your Devices
+          </h1>
           <Table />
         </div>
       </div>
