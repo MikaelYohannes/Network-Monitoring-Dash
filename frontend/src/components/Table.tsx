@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Device } from "../types/devices";
 import { getDevices } from "../api/devices";
 import Modal from "./modal";
+import { addDevice } from "../api/devices";
 export default function Table() {
   let cell_prop = "border border-orange-400 p-2";
   let edit_button_prop =
@@ -24,6 +25,15 @@ export default function Table() {
   }, []);
 
   const [showAddModal, setShowAddModal] = useState(false);
+  const [name, setName] = useState("");
+  const [ip, setIp] = useState("");
+
+  async function handleSubmit(e: React.SubmitEvent) {
+    e.preventDefault();
+    await addDevice({ name, ip: ip });
+    setName("");
+    setIp("");
+  }
 
   return (
     <div className="flex flex-col items-center bg-[#020820]">
@@ -69,14 +79,26 @@ export default function Table() {
         Add Device
       </button>
       <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)}>
-        <form className={form_prop}>
+        <form id="addDevice" onSubmit={handleSubmit} className={form_prop}>
           <h1 className="mb-5">Add New Device</h1>
           <label htmlFor="Name">Device Name</label>
-          <input className="border rounded-lg p-1" type="text" />
+          <input
+            className="border rounded-lg p-1"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
           <label className="mt-5 " htmlFor="IP">
             IP Adress
           </label>
-          <input className="border rounded-lg p-1" type="text" />
+          <input
+            className="border rounded-lg p-1"
+            type="text"
+            value={ip}
+            onChange={(e) => setIp(e.target.value)}
+            required
+          />
           <input className="mt-5" type="Submit" />
         </form>
       </Modal>
