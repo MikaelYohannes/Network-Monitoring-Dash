@@ -3,6 +3,8 @@ import type { Device } from "../types/devices";
 import { getDevices } from "../api/devices";
 import Modal from "./modal";
 import { addDevice } from "../api/devices";
+import { deleteDevice } from "../api/devices";
+import DeleteConfirmModal from "./DeleteConfirmModal";
 export default function Table() {
   let cell_prop = "border border-orange-400 p-2";
   let edit_button_prop =
@@ -13,10 +15,10 @@ export default function Table() {
   let form_prop =
     " flex flex-col text-xl border p-20 rounded-xl border-orange-500";
   const [devices, setDevices] = useState<Device[]>([]);
+  const fetchDevices = () => {
+    getDevices().then(setDevices).catch(console.error);
+  };
   useEffect(() => {
-    const fetchDevices = () => {
-      getDevices().then(setDevices).catch(console.error);
-    };
     fetchDevices();
 
     const interval = setInterval(fetchDevices, 10000);
@@ -27,12 +29,20 @@ export default function Table() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [name, setName] = useState("");
   const [ip, setIp] = useState("");
+  const [deviceDelete, setDeviceDelete] = useState<Device | null>(null);
 
   async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault();
     await addDevice({ name, ip: ip });
     setName("");
     setIp("");
+  }
+
+  async function handleDelete() {
+    if (!deviceDelete) return;
+    await deleteDevice(deviceDelete.id);
+    setDeviceDelete(null);
+    fetchDevices();
   }
 
   return (
@@ -63,7 +73,20 @@ export default function Table() {
               <td className={cell_prop}>{device.latency}</td>
               <td className="flex justify-evenly border border-orange-400 p-2">
                 <button className={edit_button_prop}>Edit</button>
-                <button className={delete_button_prop}>Delete</button>
+                <button
+                  className={delete_button_prop}
+                  onClick={() => setDeviceDelete(device)}
+                >
+                  Delete
+                </button>
+                {deviceDelete && (
+                  <DeleteConfirmModal
+                    isOpen={true}
+                    deviceName={deviceDelete.name}
+                    onClose={() => setDeviceDelete(null)}
+                    onConfirm={handleDelete}
+                  />
+                )}
               </td>
             </tr>
           ))}

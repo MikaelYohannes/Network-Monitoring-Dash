@@ -19,3 +19,12 @@ export async function addDevice(device:{name: string; ip:string;}) {
         }
    return response.json();
 }
+
+export async function deleteDevice(id:number){
+    const response = await fetch(`http://127.0.0.1:8000/devices/${id}`, {
+        method: 'DELETE'
+    });
+    if(!response.ok){
+        throw new Error('Failed to delete device');
+    }
+}

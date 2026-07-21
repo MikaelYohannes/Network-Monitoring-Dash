@@ -5,3 +5,11 @@ export type ModalProps = {
     onClose: () => void;
     children: ReactNode;
 };
+
+
+export type DeleteConfirmModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  deviceName: string;
+};
