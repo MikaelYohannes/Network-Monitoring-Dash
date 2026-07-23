@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import type { Device } from "../types/devices";
-import { getDevices } from "../api/devices";
 import Modal from "./modal";
-import { addDevice } from "../api/devices";
-import { deleteDevice } from "../api/devices";
+import {
+  getDevices,
+  addDevice,
+  deleteDevice,
+  updateDevice,
+} from "../api/devices";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 export default function Table() {
   let cell_prop = "border border-orange-400 p-2";
@@ -13,7 +16,7 @@ export default function Table() {
     " border border-[#ff0000] rounded-lg text-red-500 mx-2 px-2 hover:bg-[#ff0000] duration-500 hover:cursor-pointer hover:text-white";
 
   let form_prop =
-    " flex flex-col text-xl border p-20 rounded-xl border-orange-500";
+    " flex flex-col text-xl border px-20 py-10 rounded-xl border-orange-500";
   const [devices, setDevices] = useState<Device[]>([]);
   const fetchDevices = () => {
     getDevices().then(setDevices).catch(console.error);
@@ -30,7 +33,8 @@ export default function Table() {
   const [name, setName] = useState("");
   const [ip, setIp] = useState("");
   const [deviceDelete, setDeviceDelete] = useState<Device | null>(null);
-
+  const [deviceEdit, setDeviceEdit] = useState<Device | null>(null);
+  const [editName, setEditName] = useState("");
   async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault();
     await addDevice({ name, ip: ip });
@@ -43,6 +47,14 @@ export default function Table() {
     await deleteDevice(deviceDelete.id);
     setDeviceDelete(null);
     fetchDevices();
+  }
+
+  async function handleEdit(e: React.SubmitEvent) {
+    if (!deviceEdit || editName == "") return;
+    updateDevice({ name: editName, ip: deviceEdit.ip });
+    e.preventDefault();
+    setDeviceEdit(null);
+    setEditName("");
   }
 
   return (
@@ -72,7 +84,32 @@ export default function Table() {
               </td>
               <td className={cell_prop}>{device.latency}</td>
               <td className="flex justify-evenly border border-orange-400 p-2">
-                <button className={edit_button_prop}>Edit</button>
+                <button
+                  className={edit_button_prop}
+                  onClick={() => setDeviceEdit(device)}
+                >
+                  Edit
+                </button>
+                {deviceEdit && (
+                  <Modal isOpen={true} onClose={() => setDeviceEdit(null)}>
+                    <form className="flex flex-col" onSubmit={handleEdit}>
+                      <label>Name: </label>
+                      <input
+                        type="text"
+                        placeholder={device.name}
+                        onChange={(e) => setEditName(e.target.value)}
+                      />
+                      <label>IP: </label>
+                      <input
+                        type="text"
+                        value={device.ip}
+                        disabled
+                        className="opacity-80"
+                      ></input>
+                      <input type="submit" />
+                    </form>
+                  </Modal>
+                )}
                 <button
                   className={delete_button_prop}
                   onClick={() => setDeviceDelete(device)}
@@ -103,7 +140,7 @@ export default function Table() {
       </button>
       <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)}>
         <form id="addDevice" onSubmit={handleSubmit} className={form_prop}>
-          <h1 className="mb-5">Add New Device</h1>
+          <h1 className="mb-5 text-2xl font-bold mb-10">Add New Device</h1>
           <label htmlFor="Name">Device Name</label>
           <input
             className="border rounded-lg p-1"
@@ -122,7 +159,10 @@ export default function Table() {
             onChange={(e) => setIp(e.target.value)}
             required
           />
-          <input className="mt-5" type="Submit" />
+          <input
+            className="mt-5 border rounded-xl opacity-80 hover:opacity-100 duration-500 hover:cursor-pointer border-orange-500"
+            type="Submit"
+          />
         </form>
       </Modal>
     </div>

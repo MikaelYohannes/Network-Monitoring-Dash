@@ -28,3 +28,14 @@ export async function deleteDevice(id:number){
         throw new Error('Failed to delete device');
     }
 }
+
+export async function updateDevice(device:{name:string; ip:string;}) {
+    const response = await fetch('http://127.0.0.1:8000/devices', {
+        method: 'PUT', headers: {"Content-Type": "application/json"},
+        body:JSON.stringify(device) 
+    });
+    if(!response.ok){
+        throw new Error('Failed to delete device');
+    }
+    return response.json();
+}
