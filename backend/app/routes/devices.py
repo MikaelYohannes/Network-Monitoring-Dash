@@ -1,6 +1,7 @@
 from fastapi import APIRouter, status, HTTPException
 from app.services.device_service import *
-from app.services.status_service import get_all_status, get_device_status, get_stat_history
+from app.services.status_service import get_all_status, get_device_status
+from app.services.history_service import get_stat_history
 
 from app.models.device import *
 

@@ -1,6 +1,7 @@
 from app.services.device_service import get_all_devices
-from app.services.status_service import update_status,update_stat_history
+from app.services.status_service import update_status
 from app.services.ping_service import get_all_device_status
+from app.services.history_service import update_stat_history
 import time
 
 def monitor_once():

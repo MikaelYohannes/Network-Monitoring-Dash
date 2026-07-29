@@ -51,10 +51,11 @@ export default function Table() {
 
   async function handleEdit(e: React.SubmitEvent) {
     if (!deviceEdit || editName == "") return;
-    updateDevice({ name: editName, ip: deviceEdit.ip });
     e.preventDefault();
+   await updateDevice({ name: editName, ip: deviceEdit.ip });    
     setDeviceEdit(null);
     setEditName("");
+    fetchDevices();
   }
 
   return (
@@ -91,22 +92,26 @@ export default function Table() {
                   Edit
                 </button>
                 {deviceEdit && (
-                  <Modal isOpen={true} onClose={() => setDeviceEdit(null)}>
-                    <form className="flex flex-col" onSubmit={handleEdit}>
+                  <Modal isOpen={true} onClose={() => {setDeviceEdit(null); setEditName(device.name);}}>
+                    <form className="flex flex-col justify-between p-10 min-h-70 min-w-100 border border-orange-500 rounded-xl" onSubmit={handleEdit}>
+                      
+                      <div className="flex flex-col">
                       <label>Name: </label>
                       <input
                         type="text"
-                        placeholder={device.name}
+                        placeholder={deviceEdit.name}
                         onChange={(e) => setEditName(e.target.value)}
-                      />
+                        className="border border-white/20 rounded-xl p-2 mt-3"
+                      /></div>
+                      <div className="flex flex-col pt-5">
                       <label>IP: </label>
                       <input
                         type="text"
-                        value={device.ip}
+                        value={deviceEdit.ip}
                         disabled
-                        className="opacity-80"
-                      ></input>
-                      <input type="submit" />
+                        className="opacity-80 p-2"
+                      ></input></div>
+                      <input type="submit" className="p-2 max-w-30 border border-orange-500 rounded-xl opacity-80 hover:opacity-100 duration-500 hover:cursor-pointer" />  
                     </form>
                   </Modal>
                 )}
