@@ -6,17 +6,14 @@ import { IoSettingsOutline } from "react-icons/io5";
 export default function Sidebar() {
   let button_prop =
     "flex justify-between min-width-5 opacity-80 hover:opacity-100 hover:cursor-pointer duration-500  my-10 px-5 py-2";
-  let icon_prop = "mr-2 text-xl";
+  let icon_prop = "text-xl";
   return (
     <div className="flex flex-col justify-start fixed h-screen border-r-1 border-orange-400 bg-[#020820] px-10">
-      <div className={button_prop}>
-        <IoHomeOutline className={icon_prop} />
-        <button>Home</button>
-      </div>
-      <div className={button_prop}>
+        <a className={button_prop} href="#Summary"><IoHomeOutline className={icon_prop} />Home</a>
+        <a href="#Table" className={button_prop}>
         <MdDevices className={icon_prop} />
-        <button>Devices</button>
-      </div>
+        Devices</a>
+      
       <div className={button_prop}>
         <MdHistory className="text-2xl mr-2" />
         <button>History</button>

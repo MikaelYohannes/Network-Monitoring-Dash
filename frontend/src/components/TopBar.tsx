@@ -1,5 +1,5 @@
 import { CiUser } from "react-icons/ci";
-export default function Topbar() {
+export default function TopBar() {
   return (
     <div className="flex justify-between fixed top-0 z-50 w-full backdrop-blur text-2xl py-5 px-20 border-b border-orange-400 rounded-lg">
       <h1>Dash</h1>

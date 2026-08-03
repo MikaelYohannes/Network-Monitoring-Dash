@@ -29,11 +29,15 @@ export default function Summary() {
   average /= Summary.length;
 
   return (
-    <div className="flex flex-wrap py-10">
+    <div className=" flex flex-col justify-start min-h-screen pl-10" id="Summary">
+      <h1 className="ml-10 py-30 opacity-80 text-5xl font-bold">
+            Highlights
+          </h1>
+    <div className="flex flex-wrap">
       <Card name="Total devices" value={Summary.length} />
       <Card name="Online" value={online.length} />
       <Card name="Average latency" value={Number(average.toFixed(2))} />
       <Card name="Unreachable Devices" value={offline.length} />
-    </div>
+    </div></div>
   );
 }
