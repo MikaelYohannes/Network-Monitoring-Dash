@@ -17,7 +17,7 @@ export default function App() {
           </h1>
           <Table />
         </div>
-        <div className="ml-50 mt-18">
+        <div className="ml-50 mt-18 py-10">
         <h1 className="text-4xl ml-10 pb-2 opacity-80 font-bold" id="Table">
             History
           </h1>

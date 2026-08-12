@@ -1,5 +1,5 @@
 @import "tailwindcss";
-html{
+html, h1, h2, h3, h4, h5, h6, p {
     background-color: #0F172A;
     color:antiquewhite;
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
