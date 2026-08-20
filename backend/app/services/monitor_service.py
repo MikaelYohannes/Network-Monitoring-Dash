@@ -31,7 +31,7 @@ def background_monitor():
         except Exception as e:
             print(f"Monitor error: {e}")
             
-        time.sleep(30)
+        time.sleep(60)  # Sleep for 60 seconds before the next iteration
     
 
 

@@ -23,9 +23,9 @@ def update_stat_history(status):
 def get_stat_history(id):
     conn = get_connection()
     cursor = conn.cursor()
-    
+    query = """SELECT checked_at, latency, status FROM status_history WHERE device_id = ?"""
     try:
-        cursor.execute("""SELECT * FROM status_history""")
+        cursor.execute(query, (id,))
         rows = cursor.fetchall()
         result = []
         for row in rows:
